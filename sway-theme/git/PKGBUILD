@@ -1,0 +1,25 @@
+# Maintainer: Alexandre Dumont <alexandre.dumont3@usherbrooke.ca>
+
+pkgname=sway-theme-git
+pkgver=1.0.r3.g566960c
+pkgrel=1
+pkgdesc="Theme switcher for sway/kitty/cava"
+arch=('x86_64')
+url="https://github.com/a-dumont/sway-theme"
+depends=('python-pywal' 'kitty' 'sway' 'swaybg' 'bash' 'sed')
+optdepends=('colorz: Backend' 'python-haishoku: Backend' 'python-colorthief: Backend')
+provides=('sway-theme')
+conflicts=('sway-theme')
+source=("git+https://github.com/a-dumont/sway-theme.git")
+sha512sums=('SKIP')
+
+pkgver() {
+	cd "${pkgname%-git}"
+	git describe --tags --long | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+package() {
+ 	cd "${pkgname%-git}"
+ 	install -Dm755 sway-theme.sh  "$pkgdir/usr/bin/${pkgname%-git}"
+	install -Dm755 completion.sh  "$pkgdir/usr/share/bash-completion/completions/sway-theme"
+}

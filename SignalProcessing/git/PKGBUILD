@@ -1,0 +1,31 @@
+# Maintainer: Alexandre Dumont <alexandre.dumont3@usherbrooke.ca>
+
+pkgname=python-signalprocessing-git
+pkgver=1.0.r6.ga73f98c
+pkgrel=1
+pkgdesc="Useful methods for signal processing"
+arch=('x86_64')
+license=('MIT')
+url="https://github.com/a-dumont/SignalProcessing"
+depends=('python')
+makedepends=('python-setuptools' 'fftw' 'gcc' 'pybind11')
+provides=('python-signalprocessing')
+conflicts=('python-signalprocessing')
+source=("git+https://github.com/a-dumont/SignalProcessing.git")
+sha512sums=('SKIP')
+
+pkgver() {
+	cd "SignalProcessing"
+	git describe --tags --long | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "SignalProcessing"
+  bash build.sh
+  python setup.py sdist
+}
+
+package() {
+ 	cd "SignalProcessing"
+ 	python setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
+}
