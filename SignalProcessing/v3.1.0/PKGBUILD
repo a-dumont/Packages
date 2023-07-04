@@ -1,35 +1,27 @@
 # Maintainer: Alexandre Dumont <alexandre.dumont3@usherbrooke.ca>
 
-pkgname=python-signalprocessing-git
-pkgver=2.2.2.r75.g765fadc
+pkgname=python-signalprocessing
+pkgver=3.1.0
 pkgrel=1
 pkgdesc="Useful methods for signal processing"
 arch=('x86_64')
 license=('MIT')
 url="https://github.com/a-dumont/SignalProcessing"
 depends=('python')
-makedepends=('python-setuptools' 'fftw' 'gcc' 'pybind11')
+makedepends=('python-setuptools' 'fftw' 'gcc' 'pybind11' 'cuda')
 provides=('python-signalprocessing')
 conflicts=('python-signalprocessing')
-source=("git+https://github.com/a-dumont/SignalProcessing.git")
+source=("$pkgname-$pkgver.tar.gz::https://github.com/a-dumont/SignalProcessing/archive/v$pkgver.tar.gz")
 sha512sums=('SKIP')
 
-pkgver() {
-	cd "SignalProcessing"
-	git switch Working >> /dev/null
-	git describe --tags --long | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
-}
-
 build() {
- 	cd "SignalProcessing"
- 	git switch Working
+ 	cd "SignalProcessing-$pkgver"
  	ENABLE_CUDA=1 cmake . 
 	ENABLE_CUDA=1 cmake --build .
 	ENABLE_CUDA=1 cmake --install .
 }
 
 package() {
- 	cd "SignalProcessing"
-	git switch Working
+ 	cd "SignalProcessing-$pkgver"
  	python setup.py install --prefix=/usr --root="${pkgdir}" --optimize=1
 }

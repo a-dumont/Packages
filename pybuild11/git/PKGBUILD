@@ -1,0 +1,28 @@
+# Maintainer: Alexandre Dumont <alexandre.dumont3@usherbrooke.ca>
+
+pkgname=pybuild11-git
+pkgver=1.0.0
+pkgrel=1
+pkgdesc="Script to generate python module using c++ and pybind11."
+arch=('x86_64')
+license=('MIT')
+url="https://github.com/a-dumont/pybuild11"
+depends=('cmake' 'python')
+makedepends=()
+provides=('pybuild11')
+conflicts=('pybuild11')
+source=("git+https://github.com/a-dumont/pybuild11.git")
+sha512sums=('SKIP')
+
+#pkgver() {
+#	cd "pybuild11"
+#	#git switch Working >> /dev/null
+#	git describe --tags --long | sed -r 's/^v//;s/([^-]*-g)/r\1/;s/-/./g'
+#}
+
+package() {
+ 	cd "pybuild11"
+	#git switch Working
+	mkdir -p "${pkgdir}/usr/bin"
+	install -T pybuild11.sh "${pkgdir}/usr/bin/pybuild11"
+}
