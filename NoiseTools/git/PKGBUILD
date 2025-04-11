@@ -1,14 +1,14 @@
 # Maintainer: Alexandre Dumont <alexandre.dumont3@usherbrooke.ca>
 
 pkgname=python-noisetools-git
-pkgver=0.0.1.r0.gf03bdb2
+pkgver=1.0.0.r0.g092fb7b
 pkgrel=1
 pkgdesc="Simple python library for commonly used methods in RF noise analysis."
 arch=('x86_64')
 license=('MIT')
 url="https://github.com/a-dumont/NoiseTools"
 depends=('python')
-makedepends=('python-setuptools' 'python-numpy' 'python-scipy' 'python-pip')
+makedepends=('python-setuptools' 'python-numpy' 'python-scipy' 'python-installer' 'python-build')
 provides=('python-noisetools')
 conflicts=('python-noisetools')
 source=("git+https://github.com/a-dumont/NoiseTools.git")
@@ -27,5 +27,5 @@ build() {
 
 package() {
  	cd "NoiseTools/dist"
- 	python -m pip install *.tar.gz --user --root="${pkgdir}"
+ 	python -m installer --destdir="$pkgdir" *.whl
 }
